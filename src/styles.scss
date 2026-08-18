@@ -1,0 +1,55 @@
+:root {
+  --bg-primary: #1c1c1e;      /* negro claro / carbón - fondo principal */
+  --bg-secondary: #242426;    /* tarjetas */
+  --bg-elevated: #2c2c2e;     /* elementos elevados / inputs */
+  --border-color: #3a3a3c;
+  --text-primary: #f2f2f2;
+  --text-secondary: #a1a1a6;
+  --accent: #ffcb05;          /* amarillo Pokémon */
+  --accent-2: #3d7dca;        /* azul Pokémon */
+  --danger: #ef4444;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  border: 2px solid var(--bg-primary);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color);
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}

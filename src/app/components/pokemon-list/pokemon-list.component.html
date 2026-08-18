@@ -1,0 +1,57 @@
+<div class="page">
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Pokédex</h1>
+      <p>Explora, filtra y guarda tus Pokémon favoritos de todas las generaciones.</p>
+    </div>
+  </header>
+
+  <main class="content">
+    <app-pokemon-filters
+      [types]="types"
+      [generations]="generations"
+      [filters]="filters()"
+      [resultCount]="filteredPokemon().length"
+      (filtersChange)="onFiltersChange($event)"
+    ></app-pokemon-filters>
+
+    @if (loading()) {
+      <div class="state-message">
+        <div class="spinner"></div>
+        <p>Cargando Pokédex completa…</p>
+      </div>
+    } @else if (loadError()) {
+      <div class="state-message error">
+        <p>{{ loadError() }}</p>
+      </div>
+    } @else if (filteredPokemon().length === 0) {
+      <div class="state-message">
+        <p>No se encontraron Pokémon con esos filtros.</p>
+      </div>
+    } @else {
+      <div class="grid">
+        @for (pokemon of pagedPokemon(); track trackById($index, pokemon)) {
+          <app-pokemon-card
+            [pokemon]="pokemon"
+            [isFavorite]="isFavorite(pokemon.id)"
+            (select)="openDetail($event)"
+            (toggleFavorite)="onToggleFavorite($event)"
+          ></app-pokemon-card>
+        }
+      </div>
+
+      @if (hasMore()) {
+        <div class="load-more-wrap">
+          <button class="load-more-btn" (click)="loadMore()">Cargar más</button>
+        </div>
+      }
+    }
+  </main>
+
+  <app-pokemon-detail-modal
+    [pokemon]="selectedPokemon()"
+    [isFavorite]="selectedPokemon() ? isFavorite(selectedPokemon()!.id) : false"
+    (close)="closeDetail()"
+    (toggleFavorite)="onToggleFavorite($event)"
+  ></app-pokemon-detail-modal>
+</div>

@@ -1,0 +1,78 @@
+<section class="filters-panel">
+  <div class="filters-row">
+    <div class="field grow">
+      <label>Buscar por nombre</label>
+      <input
+        type="text"
+        placeholder="Ej: pikachu"
+        [ngModel]="filters.name"
+        (ngModelChange)="onNameInput($event)"
+      />
+    </div>
+
+    <div class="field">
+      <label>N.° mínimo</label>
+      <input
+        type="number"
+        min="1"
+        placeholder="1"
+        [ngModel]="filters.numberMin"
+        (ngModelChange)="onNumberMin($event)"
+      />
+    </div>
+
+    <div class="field">
+      <label>N.° máximo</label>
+      <input
+        type="number"
+        min="1"
+        placeholder="1302"
+        [ngModel]="filters.numberMax"
+        (ngModelChange)="onNumberMax($event)"
+      />
+    </div>
+
+    <div class="field">
+      <label>Generación</label>
+      <select [ngModel]="filters.generation" (ngModelChange)="onGeneration($event)">
+        <option [ngValue]="null">Todas</option>
+        @for (gen of generations; track gen.id) {
+          <option [ngValue]="gen.id">{{ gen.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Ordenar por</label>
+      <select [ngModel]="filters.sort" (ngModelChange)="onSort($event)">
+        @for (opt of sortOptions; track opt.value) {
+          <option [ngValue]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    </div>
+
+    <button class="fav-toggle" [class.active]="filters.onlyFavorites" (click)="toggleFavorites()">
+      ♥ Favoritos
+    </button>
+
+    <button class="reset-btn" (click)="resetFilters()">Limpiar filtros</button>
+  </div>
+
+  <div class="filters-row types-row">
+    <span class="types-label">Tipo:</span>
+    <div class="types-list">
+      @for (type of types; track type.name) {
+        <button
+          class="type-toggle"
+          [class.active]="filters.types.includes(type.name)"
+          [style.--type-color]="type.colorHex"
+          (click)="toggleType(type.name)"
+        >
+          {{ type.name }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="result-count">{{ resultCount }} Pokémon encontrados</div>
+</section>

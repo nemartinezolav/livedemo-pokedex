@@ -1,0 +1,61 @@
+@if (pokemon) {
+  <div class="overlay" (click)="close.emit()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="close.emit()" aria-label="Cerrar">✕</button>
+
+      <div class="modal-header">
+        <span class="modal-id">{{ formattedId }}</span>
+        <img [src]="pokemon.image" [alt]="pokemon.name" />
+        <h2>{{ pokemon.name }}</h2>
+        <div class="modal-types">
+          @for (type of pokemon.types; track type) {
+            <span class="type-chip" [style.background]="typeColors[type] + '26'" [style.color]="typeColors[type]">
+              {{ type }}
+            </span>
+          }
+        </div>
+        <button
+          class="fav-btn"
+          [class.active]="isFavorite"
+          (click)="toggleFavorite.emit(pokemon)"
+        >
+          {{ isFavorite ? '♥ En favoritos' : '♡ Agregar a favoritos' }}
+        </button>
+      </div>
+
+      @if (loadingDetail) {
+        <div class="detail-loading">Cargando detalles…</div>
+      } @else if (detail) {
+        <div class="modal-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Altura</span>
+              <span class="info-value">{{ detail.heightM }} m</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Peso</span>
+              <span class="info-value">{{ detail.weightKg }} kg</span>
+            </div>
+            <div class="info-item wide">
+              <span class="info-label">Habilidades</span>
+              <span class="info-value capitalize">{{ detail.abilities.join(', ') }}</span>
+            </div>
+          </div>
+
+          <h4 class="stats-title">Estadísticas base</h4>
+          <div class="stats-list">
+            @for (stat of detail.stats; track stat.name) {
+              <div class="stat-row">
+                <span class="stat-name">{{ stat.name }}</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" [style.width.%]="maxStat(stat.value)"></div>
+                </div>
+                <span class="stat-value">{{ stat.value }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}
